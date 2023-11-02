@@ -15,11 +15,28 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+        image: ghcr.io/jlatusek/chip-build:latest
+        volumes:
+            - "/tmp/log_output:/tmp/test_logs"
+        options: --privileged -v /lib/modules:/lib/modules --sysctl "net.ipv6.conf.all.disable_ipv6=0
+            net.ipv4.conf.all.forwarding=1 net.ipv6.conf.all.forwarding=1"
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
+      - name: Hello World
         run: echo Hello, world!
+      - name: ls
+        run: ls /opt
+
+      - name: modprobe hci_vhci
+        run: modprobe hci_vhci
+
+      - name: modprobe mac80211_hwsim
+        run: modprobe mac80211_hwsim radios=2
+
+      - name: ip a
+        run: ip a
 
       - name: Run a multi-line script
         run: |
