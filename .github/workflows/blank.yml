@@ -15,11 +15,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container:
+        image: ghcr.io/project-chip/chip-build:22
+        volumes:
+            - "/tmp/log_output:/tmp/test_logs"
+        options: --privileged --sysctl "net.ipv6.conf.all.disable_ipv6=0
+            net.ipv4.conf.all.forwarding=1 net.ipv6.conf.all.forwarding=1"
     steps:
       - uses: actions/checkout@v3
 
       - name: Run a one-line script
         run: echo Hello, world!
+      - name: ls
+        run: ls /opt
 
       - name: Run a multi-line script
         run: |
