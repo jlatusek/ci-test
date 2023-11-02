@@ -19,15 +19,21 @@ jobs:
         image: ghcr.io/project-chip/chip-build:22
         volumes:
             - "/tmp/log_output:/tmp/test_logs"
-        options: --privileged --sysctl "net.ipv6.conf.all.disable_ipv6=0
+        options: --privileged -v /lib/modules:/lib/modules --sysctl "net.ipv6.conf.all.disable_ipv6=0
             net.ipv4.conf.all.forwarding=1 net.ipv6.conf.all.forwarding=1"
     steps:
       - uses: actions/checkout@v3
 
-      - name: Run a one-line script
+      - name: Hello World
         run: echo Hello, world!
       - name: ls
         run: ls /opt
+
+      - name: modprobe
+        run: modprobe mac80211_hwsim radios=2
+
+      - name: ip a
+        run: ip a
 
       - name: Run a multi-line script
         run: |
