@@ -29,7 +29,10 @@ jobs:
       - name: ls
         run: ls /opt
 
-      - name: modprobe
+      - name: modprobe hci_vhci
+        run: modprobe hci_vhci
+
+      - name: modprobe mac80211_hwsim
         run: modprobe mac80211_hwsim radios=2
 
       - name: ip a
